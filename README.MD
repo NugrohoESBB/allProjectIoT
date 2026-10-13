@@ -89,7 +89,7 @@ Run Website -> not available
 | :-------- | :------- |  :------- |
 | `DATA` | `Communication` |`A0` |
 | `GND` | `Ground` |`GND`|
-| `VCC` | `Power` | `A0 (GPIO16)`|
+| `VCC` | `Power` | `D0 (GPIO16)`|
 
 ## Relay 1 Channel Pin Use to ESP8266 NodeMCU
 
