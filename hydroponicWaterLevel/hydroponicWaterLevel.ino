@@ -15,7 +15,7 @@ const int LEVEL_FULL  = 550;
 const int THRESHOLD_ON  = 30;
 const int THRESHOLD_OFF = 80;
 
-const unsigned long READ_INTERVAL = 1000;
+const unsigned long READ_INTERVAL = 200;
 const unsigned long PUMP_MAX_TIME = 60000;
 
 bool pumpOn = false;
@@ -23,6 +23,8 @@ bool fault = false;
 unsigned long pumpStart = 0;
 unsigned long lastRead = 0;
 unsigned long lastBeep = 0;
+
+int levelRaw = 0;
 
 int readLevelPercent() {
   digitalWrite(PIN_SENSOR_PWR, HIGH);
@@ -34,6 +36,7 @@ int readLevelPercent() {
   }
   digitalWrite(PIN_SENSOR_PWR, LOW);
   int raw = sum / 10;
+  levelRaw = raw;
   int pct = map(raw, LEVEL_EMPTY, LEVEL_FULL, 0, 100);
   return constrain(pct, 0, 100);
 }
@@ -90,8 +93,9 @@ void loop() {
   if (now - lastRead >= READ_INTERVAL) {
     lastRead = now;
     int level = readLevelPercent();
-    Serial.printf("Level air: %d%% | Pompa: %s | Fault: %s\n",
-                  level, pumpOn ? "ON" : "OFF", fault ? "YA" : "TIDAK");
+
+    Serial.printf("Raw: %d | Level air: %d%% | Pompa: %s | Fault: %s\n",
+                  levelRaw, level, pumpOn ? "ON" : "OFF", fault ? "YA" : "TIDAK");
 
     if (fault) {
       if (level >= THRESHOLD_OFF) {
@@ -110,10 +114,10 @@ void loop() {
       }
     }
 
-    if (fault)                      setLeds(HIGH, HIGH, LOW);
-    else if (pumpOn)                setLeds(LOW, HIGH, LOW);
-    else if (level < THRESHOLD_ON)  setLeds(HIGH, LOW, LOW);
-    else                            setLeds(LOW, LOW, HIGH);
+    if (fault)                       setLeds(HIGH, HIGH, LOW);
+    else if (level < THRESHOLD_ON)   setLeds(HIGH, LOW, LOW);
+    else if (level < THRESHOLD_OFF)  setLeds(LOW, HIGH, LOW);
+    else                             setLeds(LOW, LOW, HIGH);
   }
 
   if (fault && now - lastBeep >= 3000) {
