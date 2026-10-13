@@ -145,6 +145,9 @@ const int THRESHOLD_OFF = 80;
 
 const unsigned long READ_INTERVAL = 1000;
 const unsigned long PUMP_MAX_TIME = 60000;
+const unsigned long PUMP_ON_DELAY = 5000;
+unsigned long lowStart = 0;
+bool lowDetected = false;
 
 bool pumpOn = false;
 bool fault = false;
@@ -227,14 +230,16 @@ void loop() {
       }
     } else if (!pumpOn) {
       if (level < THRESHOLD_ON) {
+        if (!lowDetected) {
+          lowDetected = true;
+          lowStart = now;
+        } else if (now - lowStart >= PUMP_ON_DELAY) {
+          lowDetected = false;
+          pumpControl(true);
+        }
         pumpControl(true);
-      }
-    } else {
-      if (level >= THRESHOLD_OFF) {
-        pumpControl(false);
-      } else if (now - pumpStart >= PUMP_MAX_TIME) {
-        pumpControl(false);
-        fault = true;
+      } else {
+        lowDetected = false;
       }
     }
 
