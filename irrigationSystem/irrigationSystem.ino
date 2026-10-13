@@ -14,14 +14,16 @@ const int SOIL_WET = 350;
 const int THRESHOLD_ON  = 35;
 const int THRESHOLD_OFF = 60;
 
-const unsigned long READ_INTERVAL = 1000;
+const unsigned long READ_INTERVAL = 200;
 const unsigned long PUMP_MAX_TIME = 30000;
-const unsigned long PUMP_COOLDOWN = 60000;
+const unsigned long PUMP_COOLDOWN = 5000;
 
 bool pumpOn = false;
 unsigned long pumpStart = 0;
 unsigned long pumpStop = 0;
 unsigned long lastRead = 0;
+
+int soilRaw = 0;
 
 int readSoilPercent() {
   long sum = 0;
@@ -30,6 +32,7 @@ int readSoilPercent() {
     delay(5);
   }
   int raw = sum / 10;
+  soilRaw = raw;
   int pct = map(raw, SOIL_DRY, SOIL_WET, 0, 100);
   return constrain(pct, 0, 100);
 }
@@ -85,7 +88,8 @@ void loop() {
   if (now - lastRead >= READ_INTERVAL) {
     lastRead = now;
     int soil = readSoilPercent();
-    Serial.printf("Kelembapan: %d%% | Pompa: %s\n", soil, pumpOn ? "ON" : "OFF");
+
+    Serial.printf("Raw: %d | Kelembapan: %d%% | Pompa: %s\n", soilRaw, soil, pumpOn ? "ON" : "OFF");
 
     if (!pumpOn) {
       bool cooldownDone = (pumpStop == 0) || (now - pumpStop >= PUMP_COOLDOWN);
@@ -98,8 +102,8 @@ void loop() {
       }
     }
 
-    if (pumpOn)                      setLeds(LOW, HIGH, LOW);
-    else if (soil < THRESHOLD_ON)    setLeds(HIGH, LOW, LOW);
+    if (soil < THRESHOLD_ON)         setLeds(HIGH, LOW, LOW);
+    else if (soil < THRESHOLD_OFF)   setLeds(LOW, HIGH, LOW);
     else                             setLeds(LOW, LOW, HIGH);
   }
 }
