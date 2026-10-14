@@ -232,6 +232,23 @@ Run Website -> not available
 | `Green` | `Power & Communication` | `D0 (GPIO16)`|
 | `GND` | `Ground` |`GND`|
 
+## Troubleshooting: LCD Initialization Error on ESP8266
+When compiling the ESP8266 sketch, one of the following errors may occur due to differences in the installed `LiquidCrystal_I2C` library.
+
+**Error 1:**
+```text
+error: 'class LiquidCrystal_I2C' has no member named 'init'
+```
+
+**Solution:** Replace `lcd.init();` with `lcd.begin();`.
+
+**Error 2:**
+```text
+error: 'class LiquidCrystal_I2C' has no member named 'begin'
+```
+
+**Solution:** Replace `lcd.begin();` with `lcd.init();`.
+
 # 
 
 ## NUBARA © Nugroho Eko S Batubara 2020 - 2026. All Rights Reserved.
