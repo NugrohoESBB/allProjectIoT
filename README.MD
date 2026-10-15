@@ -303,6 +303,7 @@ https://espressif.github.io/arduino-esp32/package_esp32_index.json
 ### Step 2: Install Library
 1. Buka **Tools > Manage Libraries** (atau tekan `Ctrl+Shift+I`).
 2. Cari dan install satu per satu:
+
 | Cari di Library Manager | Pilih |
 | :-------- | :------- |
 | `WiFiManager` | `WiFiManager by tablatronix` |
