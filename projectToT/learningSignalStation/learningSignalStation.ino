@@ -450,7 +450,7 @@ void setup() {
   if (!connected) {
     Serial.println("[ERROR] Gagal konek & timeout portal!");
     display.clearDisplay();
-    display.setCursor(0, 0)
+    display.setCursor(0, 0);
     display.println("WiFi Gagal!");
     display.println("Restart...");
     display.display();
