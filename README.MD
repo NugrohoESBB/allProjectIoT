@@ -264,10 +264,10 @@ error: 'class LiquidCrystal_I2C' has no member named 'begin'
 Run Website -> not available
 
 ## Schematic
-![Wiring](https://github.com/NugrohoESBB/projectToT/blob/main/irrigationSystem/Wiring%20Irrigation%20System.jpg)
+![Wiring](https://github.com/NugrohoESBB/allProjectIoT/blob/main/projectToT/learningSignalStation/smart%20learning%20signal%20station.png)
 
 ## Schematic (Breadboard Version)
-![Wiring](https://github.com/NugrohoESBB/projectToT/blob/main/irrigationSystem/Wiring%20Irrigation%20System.jpg)
+![Wiring](https://github.com/NugrohoESBB/allProjectIoT/blob/main/projectToT/learningSignalStation/smart%20learning%20signal%20station%20(breadboard%20version).png)
 
 ## Documentation
 ## Soil Moisture Sensor Pin Use to ESP8266 NodeMCU
@@ -278,7 +278,7 @@ Run Website -> not available
 | `GND` | `Ground` |`GND`|
 | `VCC` | `Power` | `3.3V`|
 
-## NUBARA © Nugroho Eko S Batubara 2020 - 2026. All Rights Reserved.
-
 # 
+
+# NUBARA © Nugroho Eko S Batubara 2020 - 2026. All Rights Reserved.
 
