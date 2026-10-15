@@ -299,12 +299,6 @@ https://espressif.github.io/arduino-esp32/package_esp32_index.json
 ```
 
 3. Buka **Tools > Board > Boards Manager**, cari `esp32`, lalu install **esp32 by Espressif Systems**.
-> **Catatan WebServer.h:** `WebServer.h` bukan library terpisah di Library Manager. File ini baru tersedia setelah paket board **esp32 by Espressif Systems** terinstall dan board ESP32 dipilih di **Tools > Board**. Jika tidak ada di Library Manager, itu normal.
-
-Cara mengecek `WebServer.h` sudah ada:
-1. Pilih board **ESP32 Dev Module** di **Tools > Board**.
-2. Buka **File > Examples**, lalu cari kelompok **Examples for ESP32 Dev Module > WebServer**. Jika contoh `HelloServer` muncul, `WebServer.h` sudah tersedia.
-3. Lokasi file di Windows: `C:\Users\<nama-user>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\<versi>\libraries\WebServer`.
 
 ### Step 2: Install Library
 1. Buka **Tools > Manage Libraries** (atau tekan `Ctrl+Shift+I`).
@@ -318,6 +312,12 @@ Cara mengecek `WebServer.h` sudah ada:
 | `Adafruit SSD1306` | `Adafruit SSD1306 by Adafruit` |
 
 3. Jika muncul pop-up dependency, pilih **Install all**.
+> **Catatan Library WebServer.h:** `WebServer.h` bukan library terpisah di Library Manager. File ini baru tersedia setelah paket board **esp32 by Espressif Systems** terinstall dan board ESP32 dipilih di **Tools > Board**. Jika tidak ada di Library Manager, itu normal.
+
+Cara mengecek `WebServer.h` sudah ada:
+1. Pilih board **ESP32 Dev Module** di **Tools > Board**.
+2. Buka **File > Examples**, lalu cari kelompok **Examples for ESP32 Dev Module > WebServer**. Jika contoh `HelloServer` muncul, `WebServer.h` sudah tersedia.
+3. Lokasi file di Windows: `C:\Users\<nama-user>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\<versi>\libraries\WebServer`.
 
 ### Step 3: Upload Kode
 1. Simpan sketch dalam folder dengan nama yang sama dengan file `.ino`. Contoh: `smart_learning_signal_station/smart_learning_signal_station.ino`.
@@ -330,10 +330,13 @@ Cara mengecek `WebServer.h` sudah ada:
 ## Troubleshooting Library
 | Error / Masalah | Penyebab | Solusi |
 | :-------- | :------- | :------- |
-| `WiFiManager.h: No such file or directory` | `Library WiFiManager belum terinstall` | `Install WiFiManager by tzapu` |
+| `WiFiManager.h: No such file or directory` | `Library WiFiManager belum terinstall` | `Install WiFiManager by tablatronix` |
 | `Adafruit_Sensor.h: No such file or directory` | `Dependency DHT belum ada` | `Install Adafruit Unified Sensor` |
 | `Adafruit_GFX.h` atau `Adafruit_SSD1306.h` tidak ditemukan | `Library OLED belum terinstall` | `Install Adafruit GFX Library dan Adafruit SSD1306` |
-| `WebServer.h: No such file or directory` | `Board yang dipilih bukan ESP32` | `Pilih board ESP32 Dev Module` |
+| `WebServer.h: No such file or directory` | `Board yang dipilih bukan ESP32 (misalnya ESP8266 atau Arduino)` | `Pilih Tools > Board > esp32 > ESP32 Dev Module` |
+| `WebServer.h: No such file or directory` | `Paket board esp32 belum terinstall atau belum selesai terunduh` | `Install esp32 by Espressif Systems di Boards Manager, lalu restart Arduino IDE` |
+| `WebServer.h` error aneh (misalnya `http_parser.h` tidak ditemukan) | `Ada library WebServer manual di Documents/Arduino/libraries yang bentrok dengan bawaan board` | `Hapus folder WebServer di Documents/Arduino/libraries, lalu restart Arduino IDE` |
+| `WebServer.h` tidak terbaca padahal board benar | `Ada file bernama WebServer.h di folder sketch yang menimpa bawaan` | `Ganti nama atau pindahkan file tersebut, lalu Verify ulang` |
 | `Failed to connect to ESP32: Timed out waiting for packet header` | `ESP32 belum masuk mode upload` | `Tahan tombol BOOT saat proses upload dimulai` |
 | Port COM tidak muncul | `Kabel USB hanya untuk charging atau driver belum ada` | `Ganti kabel data, install driver CP210x atau CH340` |
 | OLED tidak menyala | `Alamat I2C atau wiring salah` | `Cek SDA ke D21, SCL ke D22, dan alamat 0x3C di kode` |

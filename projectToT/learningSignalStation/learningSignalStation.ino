@@ -320,7 +320,7 @@ void handleResetWiFi() {
 // 8. Tentukan Level Signal dari LDR
 // ------------------------------------------------------------
 int hitungSignalLevel(int ldr) {
-  if (ldr <= LDR_L1_MAX) return 1
+  if (ldr <= LDR_L1_MAX) return 1;
   if (ldr <= LDR_L2_MAX) return 2;
   if (ldr <= LDR_L3_MAX) return 3;
   if (ldr <= LDR_L4_MAX) return 4;
