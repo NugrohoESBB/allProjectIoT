@@ -263,6 +263,8 @@ error: 'class LiquidCrystal_I2C' has no member named 'begin'
 ## 1. Smart Learning Signal Station
 Run Website -> not available
 
+Project IoT berbasis ESP32 yang menggabungkan display OLED, sensor suhu dan kelembapan, sensor gerak, sensor cahaya, signal bar 5 LED, buzzer, serta relay untuk mengontrol USB Lamp.
+
 ## Schematic
 ![Wiring](https://github.com/NugrohoESBB/allProjectIoT/blob/main/projectToT/learningSignalStation/smart%20learning%20signal%20station.png)
 
@@ -270,13 +272,88 @@ Run Website -> not available
 ![Wiring](https://github.com/NugrohoESBB/allProjectIoT/blob/main/projectToT/learningSignalStation/smart%20learning%20signal%20station%20(breadboard%20version).png)
 
 ## Documentation
-## Soil Moisture Sensor Pin Use to ESP8266 NodeMCU
+## Power Rail Use to ESP32 DevKit
+| PIN ESP32 | Type     | Connected To |
+| :-------- | :------- | :------- |
+| `3V3` | `Power 3.3V` | `Plus (+) breadboard rail` |
+| `GND` | `Ground` | `Minus (-) breadboard rail` |
+| `VIN` | `Power 5V` | `VCC Relay, NO Relay, Battery (+)` |
+> **Warning:** Jangan hubungkan `VIN (5V)` ke rail plus breadboard 3.3V. `VIN` hanya untuk relay dan baterai.
 
-| PIN Soil | Type     | Pin ESP8266 NodeMCU| 
-| :-------- | :------- |  :------- |
-| `DATA` | `Communication` |`A0` |
-| `GND` | `Ground` |`GND`|
-| `VCC` | `Power` | `3.3V`|
+## OLED 0.96" I2C Pin Use to ESP32 DevKit
+| PIN OLED | Type     | Pin ESP32 DevKit |
+| :-------- | :------- | :------- |
+| `VCC` | `Power` | `3.3V (rail +)` |
+| `GND` | `Ground` | `GND (rail -)` |
+| `SDA` | `Communication Serial` | `D21 (GPIO21)` |
+| `SCL` | `Communication Serial` | `D22 (GPIO22)` |
+
+## DHT22 Pin Use to ESP32 DevKit
+| PIN DHT22 | Type     | Pin ESP32 DevKit |
+| :-------- | :------- | :------- |
+| `VCC (+)` | `Power` | `3.3V (rail +)` |
+| `DATA (out)` | `Communication Digital` | `D26 (GPIO26)` |
+| `GND (-)` | `Ground` | `GND (rail -)` |
+
+## PIR Motion Sensor Pin Use to ESP32 DevKit
+| PIN PIR | Type     | Pin ESP32 DevKit |
+| :-------- | :------- | :------- |
+| `VCC` | `Power` | `3.3V (rail +)` |
+| `OUT` | `Communication Digital` | `D27 (GPIO27)` |
+| `GND` | `Ground` | `GND (rail -)` |
+> **Note:** PIR membutuhkan 30 sampai 60 detik untuk kalibrasi awal setelah diberi daya.
+
+## LDR Light Sensor Pin Use to ESP32 DevKit
+LDR dirangkai sebagai pembagi tegangan (voltage divider) dengan resistor.
+
+| PIN LDR | Type     | Pin ESP32 DevKit |
+| :-------- | :------- | :------- |
+| `Leg 1` | `Power` | `3.3V (rail +)` |
+| `Leg 2` | `Communication Analog` | `D34 (GPIO34)` |
+| `Resistor 220 Ω (between Leg 2 and GND)` | `Ground` | `GND (rail -)` |
+> **Note:** Jangan hubungkan LDR langsung ke plus dan minus tanpa resistor. Modul menyebut resistor 220 Ω pada langkah perakitan, tetapi 10 kΩ pada tabel ringkasan. Pastikan nilai yang dipakai sesuai dengan kode program.
+
+## LED Signal Bar Pin Use to ESP32 DevKit
+Setiap LED wajib memakai resistor 220 Ω dengan pola: `GPIO → anoda (kaki panjang) → katoda (kaki pendek) → resistor 220 Ω → GND`.
+
+| PIN LED | Type     | Pin ESP32 DevKit |
+| :-------- | :------- | :------- |
+| `LED 1 Red (Anode)` | `Power & Communication` | `D13 (GPIO13)` |
+| `LED 2 Yellow (Anode)` | `Power & Communication` | `D25 (GPIO25)` |
+| `LED 3 Green (Anode)` | `Power & Communication` | `D14 (GPIO14)` |
+| `LED 4 Blue (Anode)` | `Power & Communication` | `D15 (GPIO15)` |
+| `LED 5 White (Anode)` | `Power & Communication` | `D4 (GPIO4)` |
+| `Cathode (all LED)` | `Ground` | `Resistor 220 Ω then GND (rail -)` |
+
+## Buzzer Pin Use to ESP32 DevKit
+| PIN Buzzer | Type     | Pin ESP32 DevKit |
+| :-------- | :------- | :------- |
+| `Red (+)` | `Power & Communication` | `D18 (GPIO18)` |
+| `Black (-)` | `Ground` | `GND (rail -)` |
+> **Note:** Jangan hubungkan kabel merah buzzer ke rail plus, karena buzzer akan menyala terus.
+
+## Relay Module Pin Use to ESP32 DevKit
+| PIN Relay | Type     | Pin ESP32 DevKit / Connected To |
+| :-------- | :------- | :------- |
+| `VCC` | `Power` | `VIN (5V)` |
+| `GND` | `Ground` | `GND (rail -)` |
+| `IN1` | `Communication Digital` | `D19 (GPIO19)` |
+| `NO (Normally Open)` | `Power Switch Input` | `VIN (5V)` |
+| `COM (Common)` | `Power Switch Output` | `USB Female Connector (red wire, +5V)` |
+| `NC (Normally Closed)` | `Not Used` | `-` |
+
+## USB Female Connector (USB Lamp) Pin Use to Relay and ESP32 DevKit
+| PIN USB Female | Type     | Connected To |
+| :-------- | :------- | :------- |
+| `Red (+5V / VBUS)` | `Power` | `COM Relay` |
+| `Black (GND)` | `Ground` | `GND (rail -)` |
+> **Note:** Jalur 5V ke lampu harus melewati relay (`NO` dan `COM`). Jika `VIN` disambung langsung ke konektor, lampu akan menyala terus.
+
+## Battery Holder Pin Use to ESP32 DevKit
+| PIN Battery Holder | Type     | Pin ESP32 DevKit |
+| :-------- | :------- | :------- |
+| `Red (+)` | `Power` | `VIN (5V)` |
+| `Black (-)` | `Ground` | `GND (rail -)` |
 
 # 
 
