@@ -271,6 +271,75 @@ Project IoT berbasis ESP32 yang menggabungkan display OLED, sensor suhu dan kele
 ## Schematic (Breadboard Version)
 ![Wiring](https://github.com/NugrohoESBB/allProjectIoT/blob/main/projectToT/learningSignalStation/smart%20learning%20signal%20station%20(breadboard%20version).png)
 
+## Library Installation (Arduino IDE)
+Kode program memakai 7 header. Tiga di antaranya sudah bawaan ESP32 dan empat library perlu diinstall.
+
+| Header | Library | Author | Perlu Install? |
+| :-------- | :------- | :------- | :------- |
+| `WiFi.h` | `WiFi` | `Espressif (ESP32 core)` | `Tidak, sudah bawaan` |
+| `WebServer.h` | `WebServer` | `Espressif (ESP32 core)` | `Tidak, sudah bawaan` |
+| `Wire.h` | `Wire` | `Espressif (ESP32 core)` | `Tidak, sudah bawaan` |
+| `WiFiManager.h` | `WiFiManager` | `tablatronix` | `Ya` |
+| `DHT.h` | `DHT sensor library` | `Adafruit` | `Ya` |
+| `Adafruit_GFX.h` | `Adafruit GFX Library` | `Adafruit` | `Ya` |
+| `Adafruit_SSD1306.h` | `Adafruit SSD1306` | `Adafruit` | `Ya` |
+
+Library pendukung (dependency) yang ikut dibutuhkan:
+| Library | Dibutuhkan Oleh | Keterangan |
+| :-------- | :------- | :------- |
+| `Adafruit Unified Sensor` | `DHT sensor library` | `Wajib, jika tidak ada akan error Adafruit_Sensor.h` |
+| `Adafruit BusIO` | `Adafruit SSD1306 / GFX` | `Biasanya ikut terinstall otomatis` |
+
+### Step 1: Install Board ESP32
+1. Install **Arduino IDE versi 1.8.19** dari arduino.cc/en/software
+2. Buka **File > Preferences**, isi **Additional boards manager URLs** dengan:
+
+```text
+https://espressif.github.io/arduino-esp32/package_esp32_index.json
+```
+
+3. Buka **Tools > Board > Boards Manager**, cari `esp32`, lalu install **esp32 by Espressif Systems**.
+> **Catatan WebServer.h:** `WebServer.h` bukan library terpisah di Library Manager. File ini baru tersedia setelah paket board **esp32 by Espressif Systems** terinstall dan board ESP32 dipilih di **Tools > Board**. Jika tidak ada di Library Manager, itu normal.
+
+Cara mengecek `WebServer.h` sudah ada:
+1. Pilih board **ESP32 Dev Module** di **Tools > Board**.
+2. Buka **File > Examples**, lalu cari kelompok **Examples for ESP32 Dev Module > WebServer**. Jika contoh `HelloServer` muncul, `WebServer.h` sudah tersedia.
+3. Lokasi file di Windows: `C:\Users\<nama-user>\AppData\Local\Arduino15\packages\esp32\hardware\esp32\<versi>\libraries\WebServer`.
+
+### Step 2: Install Library
+1. Buka **Tools > Manage Libraries** (atau tekan `Ctrl+Shift+I`).
+2. Cari dan install satu per satu:
+| Cari di Library Manager | Pilih |
+| :-------- | :------- |
+| `WiFiManager` | `WiFiManager by tablatronix` |
+| `DHT sensor library` | `DHT sensor library by Adafruit` |
+| `Adafruit Unified Sensor` | `Adafruit Unified Sensor by Adafruit` |
+| `Adafruit GFX Library` | `Adafruit GFX Library by Adafruit` |
+| `Adafruit SSD1306` | `Adafruit SSD1306 by Adafruit` |
+
+3. Jika muncul pop-up dependency, pilih **Install all**.
+
+### Step 3: Upload Kode
+1. Simpan sketch dalam folder dengan nama yang sama dengan file `.ino`. Contoh: `smart_learning_signal_station/smart_learning_signal_station.ino`.
+2. Pilih **Tools > Board > esp32 > ESP32 Dev Module**.
+3. Sambungkan ESP32 ke USB, lalu pilih **Tools > Port** yang sesuai.
+4. Klik **Verify** (ikon centang) untuk cek kode **(langkah ini bisa dilewati)**.
+5. lalu klik **Upload** (ikon panah).
+6. Buka **Tools > Serial Monitor** dengan baud rate `115200`.
+
+## Troubleshooting Library
+| Error / Masalah | Penyebab | Solusi |
+| :-------- | :------- | :------- |
+| `WiFiManager.h: No such file or directory` | `Library WiFiManager belum terinstall` | `Install WiFiManager by tzapu` |
+| `Adafruit_Sensor.h: No such file or directory` | `Dependency DHT belum ada` | `Install Adafruit Unified Sensor` |
+| `Adafruit_GFX.h` atau `Adafruit_SSD1306.h` tidak ditemukan | `Library OLED belum terinstall` | `Install Adafruit GFX Library dan Adafruit SSD1306` |
+| `WebServer.h: No such file or directory` | `Board yang dipilih bukan ESP32` | `Pilih board ESP32 Dev Module` |
+| `Failed to connect to ESP32: Timed out waiting for packet header` | `ESP32 belum masuk mode upload` | `Tahan tombol BOOT saat proses upload dimulai` |
+| Port COM tidak muncul | `Kabel USB hanya untuk charging atau driver belum ada` | `Ganti kabel data, install driver CP210x atau CH340` |
+| OLED tidak menyala | `Alamat I2C atau wiring salah` | `Cek SDA ke D21, SCL ke D22, dan alamat 0x3C di kode` |
+
+#
+
 ## Documentation
 ## Power Rail Use to ESP32 DevKit
 | PIN ESP32 | Type     | Connected To |
@@ -311,7 +380,7 @@ LDR dirangkai sebagai pembagi tegangan (voltage divider) dengan resistor.
 | `Leg 1` | `Power` | `3.3V (rail +)` |
 | `Leg 2` | `Communication Analog` | `D34 (GPIO34)` |
 | `Resistor 220 Ω (between Leg 2 and GND)` | `Ground` | `GND (rail -)` |
-> **Note:** Jangan hubungkan LDR langsung ke plus dan minus tanpa resistor. Modul menyebut resistor 220 Ω pada langkah perakitan, tetapi 10 kΩ pada tabel ringkasan. Pastikan nilai yang dipakai sesuai dengan kode program.
+> **Note:** Jangan hubungkan LDR langsung ke plus dan minus tanpa resistor.
 
 ## LED Signal Bar Pin Use to ESP32 DevKit
 Setiap LED wajib memakai resistor 220 Ω dengan pola: `GPIO → anoda (kaki panjang) → katoda (kaki pendek) → resistor 220 Ω → GND`.
