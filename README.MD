@@ -1,4 +1,4 @@
-# All of ToT project
+# All of Labschool project
 # 
 # ESP8266 30 Pin NodeMCU PIN-OUT
 ![Wiring](https://github.com/NugrohoESBB/projectToT/blob/main/esp8266-nodemcu-pinout.jpg)
@@ -250,6 +250,33 @@ error: 'class LiquidCrystal_I2C' has no member named 'begin'
 **Solution:** Replace `lcd.begin();` with `lcd.init();`.
 
 # 
+# 
+# 
+
+# All of ToT Project
+# 
+# ESP32 30 Pin NodeMCU PIN-OUT
+![Wiring](https://github.com/NugrohoESBB/projectToT/blob/main/ESP32-DevKit-V1-Pinout-Diagram.png)
+
+# 
+
+## 1. Smart Learning Signal Station
+Run Website -> not available
+
+## Schematic
+![Wiring](https://github.com/NugrohoESBB/projectToT/blob/main/irrigationSystem/Wiring%20Irrigation%20System.jpg)
+
+## Schematic (Breadboard Version)
+![Wiring](https://github.com/NugrohoESBB/projectToT/blob/main/irrigationSystem/Wiring%20Irrigation%20System.jpg)
+
+## Documentation
+## Soil Moisture Sensor Pin Use to ESP8266 NodeMCU
+
+| PIN Soil | Type     | Pin ESP8266 NodeMCU| 
+| :-------- | :------- |  :------- |
+| `DATA` | `Communication` |`A0` |
+| `GND` | `Ground` |`GND`|
+| `VCC` | `Power` | `3.3V`|
 
 ## NUBARA © Nugroho Eko S Batubara 2020 - 2026. All Rights Reserved.
 

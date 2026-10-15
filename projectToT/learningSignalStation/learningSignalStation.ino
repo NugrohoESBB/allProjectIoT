@@ -164,56 +164,68 @@ const char HTML_PAGE[] PROGMEM = R"=====(
 
 <body>
   <div class="container">
-  <header>
-  <h1>Smart Learning Signal Station 📶💡</h1>
-  <p class="subtitle">Dashboard Pemantauan Kondisi Meja Belajar</p>
-  </header>
-  <div class="alert-banner" id="banner">
-  <span>✅</span> <span id="banner-text">Kondisi meja aman</span>
-  </div>
-  <div class="grid">
-    <div class="card">
-      <div class="icon">🌡️</div>
-      <div class="label">Suhu</div>
-      <div class="value" id="temp">-- °C</div>
-      <div class="sub" id="temp-label">-</div>
+    <header>
+    <h1>Smart Learning Signal Station 📶💡</h1>
+    <p class="subtitle">Dashboard Pemantauan Kondisi Meja Belajar</p>
+    </header>
+    <div class="alert-banner" id="banner">
+    <span>✅</span> <span id="banner-text">Kondisi meja aman</span>
     </div>
-    <div class="card"><div class="icon">💧</div>
-    <div class="label">Kelembapan</div><div class="value info" id="hum">-- %</div></div>
- <div class="card"><div class="icon">☀️</div><div
-class="label">Cahaya</div><div class="value" id="light">--</div><div class="sub"
-id="light-label">-</div></div>
- <div class="card"><div class="icon">🧑‍🎓</div><div
-class="label">Kehadiran</div><div class="value" id="presence">--</div></div>
- <div class="card"><div class="icon">💡</div><div class="label">Lampu
-Belajar</div><div class="value" id="relay">--</div></div>
- <div class="card">
- <div class="icon">📶</div>
- <div class="label">Learning Signal</div>
- <div class="value" id="signal">- / 5</div>
- <div class="signal-container" id="signal-bars">
- <div class="signal-bar" style="height:8px"></div>
- <div class="signal-bar" style="height:14px"></div>
- <div class="signal-bar" style="height:22px"></div>
- <div class="signal-bar" style="height:32px"></div>
- <div class="signal-bar" style="height:42px"></div>
- </div>
- </div>
- </div>
- <div class="status-bar">
- <div class="status-dot"></div>
- <span id="status">Menganalisis kondisi meja...</span>
- </div>
- <div style="text-align:center;">
- <a href="/resetwifi" class="btn-reset">🔄 Ganti WiFi</a>
- </div>
- </div>
- <script>
- const el = {
- temp: document.getElementById('temp'), tempLabel:
-document.getElementById('temp-label'),
- hum: document.getElementById('hum'), light:
-document.getElementById('light'),
+    <div class="grid">
+      <div class="card">
+        <div class="icon">🌡️</div>
+        <div class="label">Suhu</div>
+        <div class="value" id="temp">-- °C</div>
+        <div class="sub" id="temp-label">-</div>
+      </div>
+      <div class="card">
+        <div class="icon">💧</div>
+        <div class="label">Kelembapan</div>
+        <div class="value info" id="hum">-- %</div>
+      </div>
+      <div class="card">
+        <div class="icon">☀️</div>
+        <div class="label">Cahaya</div>
+        <div class="value" id="light">--</div>
+        <div class="sub" id="light-label">-</div>
+      </div>
+      <div class="card">
+        <div class="icon">🧑‍🎓</div>
+        <div class="label">Kehadiran</div>
+        <div class="value" id="presence">--</div>
+      </div>
+      <div class="card">
+        <div class="icon">💡</div>
+        <div class="label">Lampu Belajar</div>
+        <div class="value" id="relay">--</div>
+      </div>
+      <div class="card">
+        <div class="icon">📶</div>
+        <div class="label">Learning Signal</div>
+        <div class="value" id="signal">- / 5</div>
+        <div class="signal-container" id="signal-bars">
+          <div class="signal-bar" style="height:8px"></div>
+          <div class="signal-bar" style="height:14px"></div>
+          <div class="signal-bar" style="height:22px"></div>
+          <div class="signal-bar" style="height:32px"></div>
+          <div class="signal-bar" style="height:42px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="status-bar">
+      <div class="status-dot"></div>
+      <span id="status">Menganalisis kondisi meja...</span>
+    </div>
+    <div style="text-align:center;">
+      <a href="/resetwifi" class="btn-reset">🔄 Ganti WiFi</a>
+    </div>
+  </div>
+  <script>
+    const el = {
+    temp: document.getElementById('temp'), tempLabel:
+    document.getElementById('temp-label'),
+    hum: document.getElementById('hum'), light:
+    document.getElementById('light'),
  lightLabel: document.getElementById('light-label'), presence:
 document.getElementById('presence'),
  relay: document.getElementById('relay'), banner:
