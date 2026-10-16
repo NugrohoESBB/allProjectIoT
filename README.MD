@@ -548,7 +548,7 @@ Project IoT berbasis ESP32 untuk memantau kondisi paket selama pengiriman, yang 
 
 ### Schematic
 
-![Wiring Package Condition Box](https://github.com/NugrohoESBB/allProjectIoT/tree/main/projectToT/packageConditionBox/package%20condition%20box.png)
+![Wiring Package Condition Box](https://github.com/NugrohoESBB/allProjectIoT/blob/main/projectToT/packageConditionBox/package%20condition%20box.png)
 
 ### Documentation
 
