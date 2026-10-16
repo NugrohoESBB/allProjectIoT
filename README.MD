@@ -485,6 +485,14 @@ Library pendukung (dependency) yang ikut dibutuhkan:
    https://espressif.github.io/arduino-esp32/package_esp32_index.json
    ```
 
+> **Catatan:** Jika kolom tersebut sudah berisi URL lain (misalnya ESP8266), pisahkan setiap URL dengan koma. Contoh:
+>
+> ```text
+> http://arduino.esp8266.com/stable/package_esp8266com_index.json,https://espressif.github.io/arduino-esp32/package_esp32_index.json
+> ```
+>
+> Jika ada URL lama `https://dl.espressif.com/dl/package_esp32_index.json`, ganti dengan URL baru di atas.
+
 3. Buka **Tools > Board > Boards Manager**, cari `esp32`, lalu install **esp32 by Espressif Systems**.
 
 #### Step 2: Install Library
