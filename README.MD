@@ -544,13 +544,159 @@ Cara mengecek `WebServer.h` sudah ada:
 
 **Run Website:** not available
 
-Project IoT berbasis ESP32 untuk memantau kondisi paket selama pengiriman, yang menggabungkan display OLED, sensor suhu dan kelembapan, sensor getaran/kemiringan, sensor cahaya untuk mendeteksi paket dibuka, LED indikator, serta buzzer sebagai peringatan.
+Project IoT berbasis ESP32 untuk memantau kondisi paket selama pengiriman, yang menggabungkan display OLED, sensor suhu dan kelembapan, sensor guncangan (MPU6050), sensor cahaya, RFID untuk membuka kunci, load cell dengan HX711 untuk berat paket, reed switch dan magnet untuk status tutup box, 3 LED indikator, buzzer, serta relay untuk mengontrol kunci box.
 
 ### Schematic
 
 ![Wiring Package Condition Box](https://github.com/NugrohoESBB/allProjectIoT/blob/main/projectToT/packageConditionBox/package%20condition%20box.png)
 
 ### Documentation
+
+#### Power Rail → ESP32 DevKit
+
+| PIN ESP32 | Type | Connected To |
+| :-- | :-- | :-- |
+| `3V3` | Power 3.3V | Plus (+) breadboard rail |
+| `GND` | Ground | Minus (-) breadboard rail |
+
+> **Note:** Pasang ESP32 di ujung breadboard dan pastikan ESP32 belum tersambung ke USB saat merakit.
+
+#### OLED 0.96" I2C → ESP32 DevKit
+
+| PIN OLED | Type | Pin ESP32 DevKit |
+| :-- | :-- | :-- |
+| `VCC` | Power | `3.3V (rail +)` |
+| `GND` | Ground | `GND (rail -)` |
+| `SDA` | Communication Serial | `D26 (GPIO26)` |
+| `SCL` | Communication Serial | `D27 (GPIO27)` |
+
+#### MPU6050 (Sensor Guncangan) → ESP32 DevKit
+
+MPU6050 berbagi jalur I2C yang sama dengan OLED, jadi SDA dan SCL dipasang paralel (satu baris breadboard).
+
+| PIN MPU6050 | Type | Pin ESP32 DevKit |
+| :-- | :-- | :-- |
+| `VCC` | Power | `3.3V (rail +)` |
+| `GND` | Ground | `GND (rail -)` |
+| `SDA` | Communication Serial | `D26 (GPIO26)` (satu titik dengan SDA OLED) |
+| `SCL` | Communication Serial | `D27 (GPIO27)` (satu titik dengan SCL OLED) |
+| `ADO` | Address Select | `GND (rail -)` |
+| `INT` | Not Used | `-` |
+
+> **Note:** Pin `ADO` wajib ke GND agar alamat MPU6050 (`0x68`) tidak bentrok dengan OLED (`0x3C`).
+
+#### DHT22 → ESP32 DevKit
+
+| PIN DHT22 | Type | Pin ESP32 DevKit |
+| :-- | :-- | :-- |
+| `VCC (+)` | Power | `3.3V (rail +)` |
+| `OUT` | Communication Digital | `D15 (GPIO15)` |
+| `GND (-)` | Ground | `GND (rail -)` |
+
+#### RFID RC522 → ESP32 DevKit
+
+| PIN RC522 | Type | Pin ESP32 DevKit |
+| :-- | :-- | :-- |
+| `SDA (SS)` | Communication SPI | `D21 (GPIO21)` |
+| `SCK` | Communication SPI | `D18 (GPIO18)` |
+| `MOSI` | Communication SPI | `D23 (GPIO23)` |
+| `MISO` | Communication SPI | `D19 (GPIO19)` |
+| `RST` | Communication Digital | `D4 (GPIO4)` |
+| `3.3V` | Power | `3.3V (rail +)` |
+| `GND` | Ground | `GND (rail -)` |
+| `IRQ` | Not Used | `-` (dibiarkan kosong) |
+
+#### LDR Light Sensor Module → ESP32 DevKit
+
+| PIN Modul LDR | Type | Pin ESP32 DevKit |
+| :-- | :-- | :-- |
+| `VCC` | Power | `3.3V (rail +)` |
+| `AO` | Communication Analog | `D34 (GPIO34)` |
+| `GND` | Ground | `GND (rail -)` |
+
+#### HX711 & Load Cell → ESP32 DevKit
+
+| PIN HX711 | Type | Pin ESP32 DevKit |
+| :-- | :-- | :-- |
+| `VCC` | Power | `3.3V (rail +)` |
+| `GND` | Ground | `GND (rail -)` |
+| `DT` | Communication Digital | `D33 (GPIO33)` |
+| `SCK` | Communication Digital | `D32 (GPIO32)` |
+
+Load Cell → HX711:
+
+| Kabel Load Cell | Pin HX711 |
+| :-- | :-- |
+| Merah | `E+` |
+| Hitam | `E-` |
+| Putih | `A-` |
+| Hijau | `A+` |
+
+> **Note:** Warna kabel load cell berbeda tiap produsen, jadi cocokkan dengan label atau datasheet. Kosongkan platform timbangan setiap kali box dinyalakan.
+
+#### Reed Switch & Magnet → ESP32 DevKit
+
+| PIN Reed Switch | Type | Pin ESP32 DevKit |
+| :-- | :-- | :-- |
+| `Kaki 1` | Communication Digital | `D16 (GPIO16)` |
+| `Kaki 2` | Ground | `GND (rail -)` |
+
+> **Note:** Pasang reed switch di badan box dan magnet di tutup, sejajar satu sama lain. Saat tutup tertutup, keduanya harus berdekatan agar sistem membaca "tertutup".
+
+#### LED Indicator → ESP32 DevKit
+
+Setiap LED wajib memakai resistor 220 Ω dengan pola:
+`GPIO → anoda (kaki panjang) → katoda (kaki pendek) → resistor 220 Ω → GND`.
+
+| PIN LED | Type | Pin ESP32 DevKit |
+| :-- | :-- | :-- |
+| `LED 1 Green (Anode)` | Power & Communication | `D17 (GPIO17)` |
+| `LED 2 Red (Anode)` | Power & Communication | `D13 (GPIO13)` |
+| `LED 3 Yellow (Anode)` | Power & Communication | `D14 (GPIO14)` |
+| `Cathode (all LED)` | Ground | `Resistor 220 Ω then GND (rail -)` |
+
+#### Buzzer → ESP32 DevKit
+
+| PIN Buzzer | Type | Pin ESP32 DevKit |
+| :-- | :-- | :-- |
+| `Positif (+)` | Power & Communication | `D2 (GPIO2)` |
+| `Negatif (-)` | Ground | `GND (rail -)` |
+
+> **Note:** Jangan hubungkan kaki positif buzzer ke rail plus, karena buzzer akan berbunyi terus.
+
+#### Relay Module → ESP32 DevKit
+
+| PIN Relay | Type | Pin ESP32 DevKit / Connected To |
+| :-- | :-- | :-- |
+| `VCC` | Power | `3.3V (rail +)`, atau `VIN (5V)` jika modul relay butuh 5V |
+| `GND` | Ground | `GND (rail -)` |
+| `IN` | Communication Digital | `D25 (GPIO25)` |
+| `COM` dan `NO` | Power Switch | Rangkaian kunci box, sesuai rancangan box |
+
+> **Note:** Relay bekerja sebagai saklar. Saat ESP32 memberi sinyal ke `IN`, `COM` tersambung ke `NO` dan kunci terbuka. Cek spesifikasi modul relay sebelum memilih 3.3V atau 5V.
+
+<!-- ### Library Installation (Arduino IDE)
+
+| Header | Library | Author | Perlu Install? |
+| :-- | :-- | :-- | :-- |
+| `Wire.h`, `SPI.h` | Wire, SPI | Espressif (ESP32 core) | Tidak, sudah bawaan |
+| `Adafruit_GFX.h` | Adafruit GFX Library | Adafruit | **Ya** |
+| `Adafruit_SSD1306.h` | Adafruit SSD1306 | Adafruit | **Ya** |
+| `DHT.h` | DHT sensor library | Adafruit | **Ya** |
+| `MFRC522.h` | MFRC522 | GithubCommunity (miguelbalboa) | **Ya** |
+| `HX711.h` | HX711 | Bogdan Necula (bogde) | **Ya** |
+| `MPU6050.h` | sesuai library yang dipakai di kode | - | **Ya** |
+
+### Troubleshooting B2
+
+| Error / Masalah | Penyebab | Solusi |
+| :-- | :-- | :-- |
+| OLED atau MPU6050 tidak terdeteksi | SDA/SCL tidak satu baris, atau `ADO` tidak ke GND | Cek SDA ke D26, SCL ke D27, dan `ADO` ke GND |
+| I2C tidak jalan padahal wiring benar | Pin I2C bukan default ESP32 (21/22) | Pakai `Wire.begin(26, 27);` di kode |
+| RFID tidak membaca kartu | Wiring SPI salah atau RC522 diberi 5V | Cek SDA, SCK, MOSI, MISO, RST, dan pakai 3.3V |
+| Buzzer berbunyi terus | Kaki positif tersambung ke rail plus | Pindahkan kaki positif ke D2 |
+| Berat load cell tidak stabil | Platform tidak kosong saat boot atau kabel E/A tertukar | Kosongkan platform saat dinyalakan, cek warna kabel |
+| Reed switch selalu terbaca terbuka | Magnet tidak sejajar | Dekatkan dan sejajarkan magnet dengan reed switch | -->
 
 <br><br>
 
