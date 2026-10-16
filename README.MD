@@ -17,6 +17,7 @@
 | &nbsp;&nbsp;↳ [A4](#a4-parking-slot-detection-system) | Parking Slot Detection System | ESP8266 NodeMCU |
 | [Bagian B](#tot) | **ToT Project** | ESP32 DevKit V1 |
 | &nbsp;&nbsp;↳ [B1](#b1-smart-learning-signal-station) | Smart Learning Signal Station | ESP32 DevKit V1 |
+| &nbsp;&nbsp;↳ [B2](#b2-package-condition-box) | Package Condition Box | ESP32 DevKit V1 |
 
 <br><br><br>
 
@@ -46,7 +47,7 @@
 
 ## A1. Irrigation System
 
-> **Run Website:** not available
+**Run Website:** not available
 
 ### Schematic
 
@@ -125,7 +126,7 @@ int readSoilPercent() {
 
 ## A2. Hydroponic Water Level System
 
-> **Run Website:** not available
+**Run Website:** not available
 
 ### Schematic
 
@@ -207,7 +208,7 @@ int readLevelPercent() {
 
 ## A3. Parking Gate System
 
-> **Run Website:** not available
+**Run Website:** not available
 
 ### Schematic
 
@@ -262,7 +263,7 @@ float readDistanceCm() {
 
 ## A4. Parking Slot Detection System
 
-> **Run Website:** not available
+**Run Website:** not available
 
 ### Schematic
 
@@ -339,7 +340,7 @@ Saat compile sketch ESP8266, salah satu error berikut bisa muncul karena perbeda
 
 ## B1. Smart Learning Signal Station
 
-> **Run Website:** not available
+**Run Website:** not available
 
 Project IoT berbasis ESP32 yang menggabungkan display OLED, sensor suhu dan kelembapan, sensor gerak, sensor cahaya, signal bar 5 LED, buzzer, serta relay untuk mengontrol USB Lamp.
 
@@ -532,6 +533,24 @@ Cara mengecek `WebServer.h` sudah ada:
 | `Failed to connect to ESP32: Timed out waiting for packet header` | ESP32 belum masuk mode upload | Tahan tombol **BOOT** saat proses upload dimulai |
 | Port COM tidak muncul | Kabel USB hanya untuk charging atau driver belum ada | Ganti kabel data, install driver CP210x atau CH340 |
 | OLED tidak menyala | Alamat I2C atau wiring salah | Cek SDA ke D21, SCL ke D22, dan alamat `0x3C` di kode |
+
+<br>
+
+---
+
+<a id="b2-package-condition-box"></a>
+
+## B2. Package Condition Box
+
+**Run Website:** not available
+
+Project IoT berbasis ESP32 untuk memantau kondisi paket selama pengiriman, yang menggabungkan display OLED, sensor suhu dan kelembapan, sensor getaran/kemiringan, sensor cahaya untuk mendeteksi paket dibuka, LED indikator, serta buzzer sebagai peringatan.
+
+### Schematic
+
+![Wiring Package Condition Box](https://github.com/NugrohoESBB/allProjectIoT/tree/main/projectToT/packageConditionBox/package%20condition%20box.png)
+
+### Documentation
 
 <br><br>
 
